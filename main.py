@@ -1,6 +1,7 @@
 import requests
 import pathlib
 import urllib3
+from PIL import Image
 
 
 def download_image(image_url, folder_path):
@@ -36,9 +37,21 @@ def fetch_hubble_image():
         download_image(hubble_url, folder_path)
 
 
+def crop_image():
+    image = Image.open("3849.jpg")
+    coordinates = (10, 15, 1000, 1000)
+    cropped = image.crop(coordinates)
+
+
+
 if __name__ == "__main__":
     images_directory = '/dvmn2/push_to_inst/images/'
     pathlib.Path(images_directory).mkdir(parents=True, exist_ok=True)
+    print('1')
     urllib3.disable_warnings()
+    print('1')
     fetch_spacex_last_launch()
+    print('1')
     fetch_hubble_image()
+    print('1')
+    crop_image()
