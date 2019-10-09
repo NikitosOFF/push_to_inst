@@ -19,6 +19,7 @@ def fetch_spacex_last_launch():
     for url_number, spacex_image_url in enumerate(list_of_spacex_image_url):
         folder_path = '{}spacex{}.jpg'.format(images_directory, url_number + 1)
         download_image(spacex_image_url, folder_path)
+        crop_image(folder_path)
 
 
 def fetch_hubble_image():
@@ -35,23 +36,24 @@ def fetch_hubble_image():
         image_type = hubble_url.split('.')[-1]
         folder_path = '{}{}.{}'.format(images_directory, image_id, image_type)
         download_image(hubble_url, folder_path)
+        crop_image(folder_path)
 
-
-def crop_image():
-    image = Image.open("3849.jpg")
-    coordinates = (10, 15, 1000, 1000)
+def crop_image(folder_path):
+    image = Image.open('{}'.format(folder_path))
+    image_width = image.width
+    image_height = image.height
+    if image_width > image_height:
+        image_width = image_height
+    else:
+        image_height = image_width
+    coordinates = (0, 0,image_width, image_height )
     cropped = image.crop(coordinates)
-
+    cropped.save(folder_path)
 
 
 if __name__ == "__main__":
     images_directory = '/dvmn2/push_to_inst/images/'
     pathlib.Path(images_directory).mkdir(parents=True, exist_ok=True)
-    print('1')
     urllib3.disable_warnings()
-    print('1')
     fetch_spacex_last_launch()
-    print('1')
     fetch_hubble_image()
-    print('1')
-    crop_image()
