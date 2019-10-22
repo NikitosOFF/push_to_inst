@@ -106,3 +106,14 @@ venv.bak/
 .idea
 
 images
+
+blacklist.txt
+cookie.txt
+followed.txt
+secret.txt
+skipped.txt
+friends.txt
+comments.txt
+unfollowed.txt
+whitelist.txt
+niceandfun9.checkpoint
