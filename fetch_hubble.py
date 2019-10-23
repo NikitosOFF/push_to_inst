@@ -9,20 +9,17 @@ def download_image(image_url, folder_path):
     response = requests.get(image_url, verify=False)
     with open(image, 'wb') as file:
         file.write(response.content)
-        file.close()
 
 
-def fetch_hubble_image():
+def fetch_all_hubble_images():
     hubble_collection_api_url = "http://hubblesite.org/api/v3/images/wallpaper"
     response = requests.get(hubble_collection_api_url)
-    list_of_hubble_image_id = []
-    for hubble_image in response.json():
-        list_of_hubble_image_id.append(hubble_image['id'])
-    for image_id in list_of_hubble_image_id:
+    hubble_image_id_fetched = [hubble_image['id'] for hubble_image in response.json()]
+    for image_id in hubble_image_id_fetched:
         hubble_image_api_url = "http://hubblesite.org/api/v3/image/{}".format(image_id)
         response = requests.get(hubble_image_api_url)
-        list_of_hubble_image_url = response.json()['image_files']
-        hubble_url = 'http:' + list_of_hubble_image_url[-1]['file_url']
+        hubble_image_url_fetched = response.json()['image_files']
+        hubble_url = 'http:' + hubble_image_url_fetched[-1]['file_url']
         image_type = hubble_url.split('.')[-1]
         hubble_image_name = '{}.{}'.format(image_id, image_type)
         folder_path = images_directory + hubble_image_name
@@ -43,7 +40,8 @@ def crop_image(folder_path):
     cropped.save(folder_path)
 
 
-images_directory = './images/'
-pathlib.Path(images_directory).mkdir(parents=True, exist_ok=True)
-urllib3.disable_warnings()
-fetch_hubble_image()
+if __name__ == '__main__':
+    images_directory = './images/'
+    pathlib.Path(images_directory).mkdir(parents=True, exist_ok=True)
+    urllib3.disable_warnings()
+    fetch_all_hubble_images()

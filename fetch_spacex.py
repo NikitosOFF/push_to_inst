@@ -9,14 +9,13 @@ def download_image(image_url, folder_path):
     response = requests.get(image_url, verify=False)
     with open(image, 'wb') as file:
         file.write(response.content)
-        file.close()
 
 
 def fetch_spacex_last_launch():
     spacex_api_url = "https://api.spacexdata.com/v3/launches/latest"
     response = requests.get(spacex_api_url)
-    list_of_spacex_image_url = response.json()["links"]["flickr_images"]
-    for url_number, spacex_image_url in enumerate(list_of_spacex_image_url):
+    spacex_image_url_fetched = response.json()["links"]["flickr_images"]
+    for url_number, spacex_image_url in enumerate(spacex_image_url_fetched):
         spacex_image_name = 'spacex{}.jpg'.format(url_number + 1)
         folder_path = images_directory + spacex_image_name
         download_image(spacex_image_url, folder_path)
@@ -36,7 +35,8 @@ def crop_image(folder_path):
     cropped.save(folder_path)
 
 
-images_directory = './images/'
-pathlib.Path(images_directory).mkdir(parents=True, exist_ok=True)
-urllib3.disable_warnings()
-fetch_spacex_last_launch()
+if __name__ == '__main__':
+    images_directory = './images/'
+    pathlib.Path(images_directory).mkdir(parents=True, exist_ok=True)
+    urllib3.disable_warnings()
+    fetch_spacex_last_launch()

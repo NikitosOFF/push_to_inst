@@ -10,12 +10,13 @@ def instagram_upload_images(image_path):
     bot.upload_photo(image_path, caption="Nice pic!")
 
 
-load_dotenv()
-instagram_login = getenv("INSTAGRAM_LOGIN")
-instagram_password = getenv("INSTAGRAM_PASSWORD")
+if __name__ == '__main__':
+    load_dotenv()
+    instagram_login = getenv("INSTAGRAM_LOGIN")
+    instagram_password = getenv("INSTAGRAM_PASSWORD")
 
-folder_path = "images"
-list_of_all_images = listdir(folder_path)
-for image in list_of_all_images:
-    image_path = folder_path + '/' + image
-    instagram_upload_images(image_path)
+    folder_path = "images"
+    names_of_all_images = listdir(folder_path)
+    for image_name in names_of_all_images:
+        image_path = folder_path + '/' + image_name
+        instagram_upload_images(image_path)
