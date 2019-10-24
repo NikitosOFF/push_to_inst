@@ -4,10 +4,9 @@ import urllib3
 from PIL import Image
 
 
-def download_image(image_url, folder_path):
-    image = folder_path
+def download_image(image_url, path_to_image):
     response = requests.get(image_url, verify=False)
-    with open(image, 'wb') as file:
+    with open(path_to_image, 'wb') as file:
         file.write(response.content)
 
 
@@ -17,13 +16,13 @@ def fetch_spacex_last_launch():
     spacex_image_url_fetched = response.json()["links"]["flickr_images"]
     for url_number, spacex_image_url in enumerate(spacex_image_url_fetched):
         spacex_image_name = 'spacex{}.jpg'.format(url_number + 1)
-        folder_path = images_directory + spacex_image_name
-        download_image(spacex_image_url, folder_path)
-        crop_image(folder_path)
+        path_to_image = images_directory + spacex_image_name
+        download_image(spacex_image_url, path_to_image)
+        crop_image(path_to_image)
 
 
-def crop_image(folder_path):
-    image = Image.open('{}'.format(folder_path))
+def crop_image(path_to_image):
+    image = Image.open('{}'.format(path_to_image))
     image_width = image.width
     image_height = image.height
     if image_width > image_height:
@@ -32,7 +31,7 @@ def crop_image(folder_path):
         image_height = image_width
     coordinates = (0, 0, image_width, image_height)
     cropped = image.crop(coordinates)
-    cropped.save(folder_path)
+    cropped.save(path_to_image)
 
 
 if __name__ == '__main__':

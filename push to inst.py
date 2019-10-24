@@ -4,10 +4,10 @@ from dotenv import load_dotenv
 from instabot import Bot
 
 
-def instagram_upload_images(image_path):
+def instagram_upload_images(path_to_image):
     bot = Bot()
     bot.login(username=instagram_login, password=instagram_password)
-    bot.upload_photo(image_path, caption="Nice pic!")
+    bot.upload_photo(path_to_image, caption="Nice pic!")
 
 
 if __name__ == '__main__':
@@ -15,8 +15,8 @@ if __name__ == '__main__':
     instagram_login = getenv("INSTAGRAM_LOGIN")
     instagram_password = getenv("INSTAGRAM_PASSWORD")
 
-    folder_path = "images"
-    names_of_all_images = listdir(folder_path)
+    path_to_image_folder = "images"
+    names_of_all_images = listdir(path_to_image_folder)
     for image_name in names_of_all_images:
-        image_path = folder_path + '/' + image_name
-        instagram_upload_images(image_path)
+        path_to_image = path_to_image_folder + '/' + image_name
+        instagram_upload_images(path_to_image)
