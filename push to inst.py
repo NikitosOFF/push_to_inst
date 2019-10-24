@@ -1,4 +1,5 @@
 from os import getenv
+from os import path
 from os import listdir
 from dotenv import load_dotenv
 from instabot import Bot
@@ -18,5 +19,5 @@ if __name__ == '__main__':
     path_to_image_folder = "images"
     names_of_all_images = listdir(path_to_image_folder)
     for image_name in names_of_all_images:
-        path_to_image = path_to_image_folder + '/' + image_name
+        path_to_image = path.join(path_to_image_folder, image_name)
         instagram_upload_images(path_to_image)

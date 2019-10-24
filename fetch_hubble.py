@@ -1,6 +1,7 @@
 import requests
 import pathlib
 import urllib3
+from os import path
 from PIL import Image
 
 
@@ -21,7 +22,7 @@ def fetch_all_hubble_images():
         hubble_url = 'http:' + hubble_image_url_fetched[-1]['file_url']
         image_type = hubble_url.split('.')[-1]
         hubble_image_name = '{}.{}'.format(image_id, image_type)
-        path_to_image = images_directory + hubble_image_name
+        path_to_image = path.join(images_directory, hubble_image_name)
         download_image(hubble_url, path_to_image)
         crop_image(path_to_image)
 
@@ -40,7 +41,7 @@ def crop_image(path_to_image):
 
 
 if __name__ == '__main__':
-    images_directory = './images/'
+    images_directory = 'images'
     pathlib.Path(images_directory).mkdir(parents=True, exist_ok=True)
     urllib3.disable_warnings()
     fetch_all_hubble_images()

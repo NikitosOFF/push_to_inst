@@ -1,4 +1,5 @@
 import requests
+from os import path
 import pathlib
 import urllib3
 from PIL import Image
@@ -16,7 +17,7 @@ def fetch_spacex_last_launch():
     spacex_image_url_fetched = response.json()["links"]["flickr_images"]
     for url_number, spacex_image_url in enumerate(spacex_image_url_fetched):
         spacex_image_name = 'spacex{}.jpg'.format(url_number + 1)
-        path_to_image = images_directory + spacex_image_name
+        path_to_image = path.join(images_directory, spacex_image_name)
         download_image(spacex_image_url, path_to_image)
         crop_image(path_to_image)
 
